@@ -1,4 +1,8 @@
 class House:
+    def __new__(cls, *args, **kwargs):
+        cls.houses_history.append(args[0])
+        return super().__new__(cls)
+
     def __init__(self, name, number_of_floors):
         self.name = name
         self.number_of_floors = number_of_floors
@@ -15,6 +19,9 @@ class House:
 
     def __str__(self):
         return f"Название: {self.name}, количество этажей: {self.number_of_floors}"
+
+    def __del__(self):
+        print(f"{self.name} снесен, но он останется в истории")
 
     def __eq__(self, other):
         if isinstance(other, int):
@@ -88,22 +95,17 @@ class House:
     def __itruediv__(self, value):
         return self.__truediv__(value)
 
-# h1 = House('ЖК Горский', 18)
-# h2 = House('Домик в деревне', 2)
-# h1.go_to(5)
-# h2.go_to(10)
+    houses_history = []
 
 h1 = House('ЖК Эльбрус', 10)
-h2 = House('ЖК Акация', 2)
+print(House.houses_history)
+h2 = House('ЖК Акация', 20)
+print(House.houses_history)
+h3 = House('ЖК Матрёшки', 20)
+print(House.houses_history)
 
-# __str__
-print(h1)
-print(h2)
+# Удаление объектов
+del h2
+del h3
 
-# __len__
-print(len(h1))
-print(len(h2))
-h1 = h1 / 5
-print(h1)
-h1 /= 2
-print(h1)
+print(House.houses_history)
